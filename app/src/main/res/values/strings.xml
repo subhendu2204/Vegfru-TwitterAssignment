@@ -1,0 +1,7 @@
+<resources>
+    <string name="app_name">TwitterAssignment</string>
+    <string name="login_text">Login to Twitter</string>
+    <string name="log_in">Log In</string>
+    <string name="search_edit_text_hint">Enter hastag to search ...</string>
+    <string name="search_text_empty_err">Please input something to search</string>
+</resources>
