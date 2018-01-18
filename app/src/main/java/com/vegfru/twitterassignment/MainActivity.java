@@ -55,6 +55,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                                                                         // also load initial user data
     AsyncTask<String, Void, JSONObject> searchTweetsTask = null;        //Async Task for process search hashtag query twitter api
                                                                         // also initiate timer using handler
+    private String searchString;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -64,6 +65,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         initViews();
         initTweetList();
         if (savedInstanceState != null && savedInstanceState.getBoolean("PAGE_REFRESHING")) {
+            searchString = savedInstanceState.getString("SEARCH_STRING");
             searchTweets();
         }else {
             loadTweets();
@@ -76,6 +78,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     public void onSaveInstanceState(Bundle outState){
         if(isSearching) {
             outState.putBoolean("PAGE_REFRESHING", true);
+            outState.putString("SEARCH_STRING", searchString);
         }
         super.onSaveInstanceState(outState);
     }
@@ -163,6 +166,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 loadTweets();
                 break;
             case R.id.searchbutton:
+                searchString = searchEditBox.getText().toString();
                 hideIme();
                 searchTweets();
                 break;
@@ -284,8 +288,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
     //this function is basically wrapper for the async task for search query processing
     private void searchTweets(){
-        String searchString = searchEditBox.getText().toString();
-        if(!searchString.trim().isEmpty()){
+
+        if(searchString != null && !searchString.trim().isEmpty()){
             if(!searchString.contains("#")){
                 searchString = "#" + searchString;
             }
